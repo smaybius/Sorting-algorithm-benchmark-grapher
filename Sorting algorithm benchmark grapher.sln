@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.2.32616.157
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sorting algorithm benchmark grapher", "Sorting algorithm benchmark grapher.csproj", "{9DE5E0B1-5F77-425A-9DAE-77701296E4AA}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9DE5E0B1-5F77-425A-9DAE-77701296E4AA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9DE5E0B1-5F77-425A-9DAE-77701296E4AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9DE5E0B1-5F77-425A-9DAE-77701296E4AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9DE5E0B1-5F77-425A-9DAE-77701296E4AA}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {D7388D3E-AFF5-4C8F-A77A-0D952B83B488}
+	EndGlobalSection
+EndGlobal

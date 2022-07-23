@@ -1,0 +1,115 @@
+﻿<Window x:Class="Sorting_algorithm_benchmark_grapher.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="1040" Width="870">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="20*" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="20*" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="20*" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="20*" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="10*" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="6*"/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="2*"/>
+        </Grid.ColumnDefinitions>
+        <Grid Grid.Row="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
+            </Grid.RowDefinitions>
+            <TextBlock Text="Preview" FontSize="24" HorizontalAlignment="Center" VerticalAlignment="Top" Grid.Row="0" Height="32"/>
+            <WpfPlot x:Name="Display" Grid.Row="1"/>
+            <TextBlock Text="Preview array size" FontSize="24" HorizontalAlignment="Center" VerticalAlignment="Bottom" Grid.Row="2" Height="32"/>
+            <Slider x:Name="SizeSlider" Height="23" Minimum="2" Maximum="2048" AutoToolTipPlacement="TopLeft" LargeChange="100" SmallChange="1" Value="256" ValueChanged="SizeSlider_ValueChanged" VerticalAlignment="Bottom" Grid.Row="3"/>
+        </Grid>
+        <GridSplitter Grid.Row="1" Grid.ColumnSpan="1"
+              HorizontalAlignment="Stretch" Height="5"
+                          ResizeDirection="Rows"
+              />
+        <Grid Grid.Row="2">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="32" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <TextBlock Text="Comparisons" FontSize="24" HorizontalAlignment="Center" VerticalAlignment="Top" Height="32" Grid.Row="0"/>
+            <WpfPlot x:Name="CompareGraph" Grid.Row="1"/>
+        </Grid>
+
+        <GridSplitter Grid.Row="3" Grid.ColumnSpan="1"
+              HorizontalAlignment="Stretch" Height="5"
+              
+           />
+        <Grid Grid.Row="4">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="32" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <TextBlock Text="Total array type accesses" FontSize="24" HorizontalAlignment="Center" Grid.Row="0"/>
+            <WpfPlot x:Name="GetsGraph" Grid.Row="1"/>
+        </Grid>
+        <GridSplitter Grid.Row="5" Grid.ColumnSpan="1"
+              HorizontalAlignment="Stretch" Height="5"
+              
+           />
+        <Grid Grid.Row="6">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="32" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <TextBlock Text="Time in ticks" FontSize="24" HorizontalAlignment="Center" Grid.Row="0"/>
+            <WpfPlot x:Name="TimeGraph" Grid.Row="1"/>
+        </Grid>
+        <GridSplitter Grid.Row="7" Grid.ColumnSpan="1"
+              HorizontalAlignment="Stretch" Height="5"
+              
+           />
+        <Grid Grid.Row="8" VerticalAlignment="Top" Height="102" Margin="0,10,5,0" Grid.ColumnSpan="2">
+
+            <Button x:Name="SortButton" Content="Sort and benchmark" Height="32" Width="200" FontSize="20" Click="SortButton_Click" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,60,0,0"/>
+            <CheckBox x:Name="ShuffleCheck" Content="Shuffle uses other shuffles" HorizontalAlignment="Right" Margin="0,68,28,0" VerticalAlignment="Top" Checked="ShuffleCheck_Checked" Unchecked="ShuffleCheck_Unchecked" IsChecked="True"/>
+            <CheckBox x:Name="ResetCheck" Content="Reset distribution on shuffle change" HorizontalAlignment="Left" Margin="9,68,0,0" VerticalAlignment="Top" IsChecked="True" Checked="ResetCheck_Checked" Unchecked="ResetCheck_Unchecked"/>
+            <Button x:Name="ShuffleButton" Content="Reshuffle" Height="30" FontSize="20" Click="ShuffleButton_Click" VerticalAlignment="Top" Margin="0,10,65,0" HorizontalAlignment="Right"/>
+            <Button x:Name="ResetButton" Content="Reset distribution" Height="30" FontSize="20" Click="ResetButton_Click" VerticalAlignment="Top" Margin="35,10,0,0" HorizontalAlignment="Left"/>
+            <TextBox x:Name="Parameter" HorizontalAlignment="Center" Margin="0,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="200" Height="28" FontSize="18" Text="{Binding Path=BoxText}" IsEnabled="False"/>
+            <TextBlock x:Name="MessageText" HorizontalAlignment="Center" Margin="0,39,0,0" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top" Width="200" TextAlignment="Center"/>
+        </Grid>
+        <GridSplitter Grid.Column="1" 
+              Grid.RowSpan="7" 
+              HorizontalAlignment="Left" 
+              VerticalAlignment="Stretch"
+              Background="Black" 
+              ShowsPreview="true"
+              Width="5"/>
+        <Grid Grid.Column="2" Grid.RowSpan="7">
+            <TabControl x:Name="SortCategories">
+                <TabItem Header="All sorts">
+                    <ListBox x:Name="AllSorts" SelectionMode="Single" SelectionChanged="AllSorts_SelectionChanged" SelectedIndex="0">
+
+                    </ListBox>
+                </TabItem>
+                <TabItem Header="Shuffles">
+                    <ListBox x:Name="ShuffleBox" SelectionMode="Single" SelectionChanged="ShuffleBox_SelectionChanged" SelectedIndex="0">
+
+                    </ListBox>
+                </TabItem>
+                <TabItem Header="Distributions">
+                    <ListBox x:Name="DistribBox" SelectionMode="Single" SelectionChanged="DistribBox_SelectionChanged" SelectedIndex="0">
+
+                    </ListBox>
+                </TabItem>
+            </TabControl>
+        </Grid>
+    </Grid>
+</Window>

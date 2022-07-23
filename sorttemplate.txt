@@ -1,0 +1,22 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Sorting_algorithm_benchmark_grapher
+{
+    internal class StableSort : ISorter
+    {
+        public string Title => "";
+
+        public string Message => ""; //leave it blank for no extra parameter
+
+        public string Category => "Exchange";
+
+        public void RunSort<T>(T[] array, int start, int end, double parameter, IComparer<T> cmp)
+        {
+            
+        }
+    }
+}

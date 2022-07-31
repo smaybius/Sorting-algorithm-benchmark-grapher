@@ -36,7 +36,22 @@ namespace Sorting_algorithm_benchmark_grapher
         }
     }
 
+    public class WrongCategoryException : Exception
+    {
+        public WrongCategoryException()
+        {
+        }
 
+        public WrongCategoryException(string message)
+            : base(message)
+        {
+        }
+
+        public WrongCategoryException(string message, Exception inner)
+            : base(message, inner)
+        {
+        }
+    }
     public partial class MainWindow : Window
     {
 
@@ -164,6 +179,8 @@ namespace Sorting_algorithm_benchmark_grapher
             }
             else
             {
+                if (sorts[sortindex].Category == "Distributive" || sorts[sortindex].Category == "Distribution")
+                    throw new WrongCategoryException("Only non-generic sorts are allowed in the distributive category.");
                 int arraysize = 5;
                 switch (sorts[sortindex].Time)
                 {

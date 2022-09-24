@@ -1,25 +1,10 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Collections.Specialized;
 using System.Diagnostics;
-using System.Globalization;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Reflection;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace Sorting_algorithm_benchmark_grapher
 {
@@ -29,9 +14,8 @@ namespace Sorting_algorithm_benchmark_grapher
     /// </summary>
     public class Comparer : IComparer<ArrayInt>
     {
-        public int Compare(ArrayInt? x, ArrayInt? y)
+        public int Compare(ArrayInt x, ArrayInt y)
         {
-            MainWindow.mw?.AddComparison();
             return x < y ? -1 : x > y ? 1 : 0;
         }
     }
@@ -58,52 +42,50 @@ namespace Sorting_algorithm_benchmark_grapher
 
         public ArrayInt[] Arr;
 
-        public static MainWindow mw;
-
-        public readonly static Comparer cmp = new();
-        readonly List<IDistribution> distribs = new();
-        readonly List<string> distnames = new();
-
-        readonly List<IShuffle> shuffles = new();
-        readonly List<string> shufnames = new();
-
-        readonly List<ISorter> sorts = new();
-        readonly List<string> sortnames = new();
-        static ArrayInt[][] SortArr = new ArrayInt[2048][];
-        double[] Comps = new double[SortArr.Length];
-        double[] Gets = new double[SortArr.Length];
-        double[] Time = new double[SortArr.Length];
+        public static readonly Comparer cmp = new();
+        private readonly List<IDistribution> distribs = new();
+        private readonly List<string> distnames = new();
+        private readonly List<IShuffle> shuffles = new();
+        private readonly List<string> shufnames = new();
+        private readonly List<ISorter> genrcsorts = new();
+        private readonly List<string> genrcsortnames = new();
+        private readonly List<IIntegerSorter> intsorts = new();
+        private readonly List<string> intsortnames = new();
+        private static readonly ArrayInt[][] SortArr = new ArrayInt[2048][];
+        private double[] Comps = new double[SortArr.Length];
+        private double[] Gets = new double[SortArr.Length];
+        private double[] Time = new double[SortArr.Length];
         public static bool ExtraShuffles { get; private set; }
 
-        public double BoxText { get; set; }
+        public int BoxText { get; set; }
 
         public bool resetdist;
 
-        private volatile int Compares;
-        private volatile int Get;
+        private static volatile int Compares;
+        private static volatile int Get;
 
-        public void ResetStatistics()
+        public static void ResetStatistics()
         {
             Compares = 0;
             Get = 0;
         }
 
-        public int GetCompares()
+        public static int GetCompares()
         {
             return Compares;
         }
 
-        public int GetGets()
+        public static int GetGets()
         {
             return Get;
         }
 
-        public void AddComparison()
+        public static void AddComparison()
         {
             Compares++;
         }
 
-        public void AddGets()
+        public static void AddGets()
         {
             Get++;
         }
@@ -116,8 +98,8 @@ namespace Sorting_algorithm_benchmark_grapher
             Display.Configuration.ScrollWheelZoom = false;
             Display.Configuration.MiddleClickDragZoom = false;
             Arr = new ArrayInt[SizeSlider != null ? (int)SizeSlider.Value : 256];
-            var disttypes = Assembly.GetExecutingAssembly().GetTypes().Where(t => t.IsClass && !t.IsAbstract && !t.IsInterface && t.IsAssignableTo(typeof(IDistribution)));
-            foreach (var it in disttypes)
+            IEnumerable<Type>? disttypes = Assembly.GetExecutingAssembly().GetTypes().Where(t => t.IsClass && !t.IsAbstract && !t.IsInterface && t.IsAssignableTo(typeof(IDistribution)));
+            foreach (Type? it in disttypes)
             {
                 IDistribution? i = (IDistribution?)Activator.CreateInstance(it);
                 if (i != null)
@@ -126,12 +108,12 @@ namespace Sorting_algorithm_benchmark_grapher
                     distnames.Add(i.Title);
                     Debug.WriteLine(i.Title);
                 }
-                
+
             }
             DistribBox.ItemsSource = distnames;
 
-            var shuftypes = Assembly.GetExecutingAssembly().GetTypes().Where(t => t.IsClass && !t.IsAbstract && !t.IsInterface && t.IsAssignableTo(typeof(IShuffle)));
-            foreach (var it in shuftypes)
+            IEnumerable<Type>? shuftypes = Assembly.GetExecutingAssembly().GetTypes().Where(t => t.IsClass && !t.IsAbstract && !t.IsInterface && t.IsAssignableTo(typeof(IShuffle)));
+            foreach (Type? it in shuftypes)
             {
                 IShuffle? i = (IShuffle?)Activator.CreateInstance(it);
                 if (i != null)
@@ -142,19 +124,33 @@ namespace Sorting_algorithm_benchmark_grapher
                 }
             }
             ShuffleBox.ItemsSource = shufnames;
-            var sorttypes = Assembly.GetExecutingAssembly().GetTypes().Where(t => t.IsClass && !t.IsAbstract && !t.IsInterface && t.IsAssignableTo(typeof(ISorter)));
-            foreach (var it in sorttypes)
+
+            IEnumerable<Type>? sorttypes = Assembly.GetExecutingAssembly().GetTypes().Where(t => t.IsClass && !t.IsAbstract && !t.IsInterface && t.IsAssignableTo(typeof(ISorter)));
+            foreach (Type? it in sorttypes)
             {
                 ISorter? i = (ISorter?)Activator.CreateInstance(it);
                 if (i != null)
                 {
-                    sorts.Add(i);
-                    sortnames.Add(i.Title);
+                    genrcsorts.Add(i);
+                    genrcsortnames.Add(i.Title);
                     Debug.WriteLine(i.Title);
                 }
             }
-            AllSorts.ItemsSource = sortnames;
-            mw = this;
+            GenericSorts.ItemsSource = genrcsortnames;
+
+            IEnumerable<Type>? intsorttypes = Assembly.GetExecutingAssembly().GetTypes().Where(t => t.IsClass && !t.IsAbstract && !t.IsInterface && t.IsAssignableTo(typeof(IIntegerSorter)));
+            foreach (Type? it in intsorttypes)
+            {
+                IIntegerSorter? i = (IIntegerSorter?)Activator.CreateInstance(it);
+                if (i != null)
+                {
+                    intsorts.Add(i);
+                    intsortnames.Add(i.Title);
+                    Debug.WriteLine(i.Title);
+                }
+            }
+            IntegerSorts.ItemsSource = intsortnames;
+
             Initialize();
             Shuffle();
         }
@@ -169,20 +165,20 @@ namespace Sorting_algorithm_benchmark_grapher
             SizeSlider.IsEnabled = false;
             DistribBox.IsEnabled = false;
             SortButton.IsEnabled = false;
-            AllSorts.IsEnabled = false;
+            GenericSorts.IsEnabled = false;
+            IntegerSorts.IsEnabled = false;
             int distindex = DistribBox.SelectedIndex;
             int shufindex = ShuffleBox.SelectedIndex;
-            int sortindex = AllSorts.SelectedIndex;
-            if (Parameter.IsEnabled == true && double.TryParse(Parameter.Text, out _) == false)
+            int sortindex = Sorts.SelectedIndex == 0 ? GenericSorts.SelectedIndex : IntegerSorts.SelectedIndex;
+
+            if (Parameter.IsEnabled == true && int.TryParse(Parameter.Text, out _) == false)
             {
-                MessageBox.Show("The input parameter is not a number.");
+                _ = MessageBox.Show("The input parameter is not a number.");
             }
             else
             {
-                if (sorts[sortindex].Category == "Distributive" || sorts[sortindex].Category == "Distribution")
-                    throw new WrongCategoryException("Only non-generic sorts are allowed in the distributive category.");
                 int arraysize = 5;
-                switch (sorts[sortindex].Time)
+                switch (genrcsorts[sortindex].Time)
                 {
                     case Complexity.GOOD:
                         arraysize = SortArr.Length;
@@ -206,31 +202,44 @@ namespace Sorting_algorithm_benchmark_grapher
                 Time = new double[arraysize];
                 for (int i = 3; i < arraysize; i++)
                 {
-                    
+
                     SortArr[i] = new ArrayInt[i];
                     if (DistribBox != null)
+                    {
                         distribs[distindex].InitializeArray(SortArr[i]);
+                    }
+
                     if (ShuffleBox != null)
+                    {
                         shuffles[shufindex].ShuffleArray(SortArr[i], 0, SortArr[i].Length, cmp);
+                    }
 
                     ResetStatistics();
                     Stopwatch sw = new();
                     sw.Start();
-                    sorts[sortindex].RunSort(SortArr[i], SortArr[i].Length, BoxText, cmp);
+                    if (Sorts.SelectedIndex == 0)
+                    {
+                        genrcsorts[sortindex].RunSort(SortArr[i], SortArr[i].Length, BoxText, cmp);
+                    }
+                    else
+                    {
+                        intsorts[sortindex].RunSort(SortArr[i], SortArr[i].Length, BoxText, cmp);
+                    }
+
                     sw.Stop();
                     Comps[i] = GetCompares();
                     Gets[i] = GetGets();
                     Time[i] = sw.ElapsedTicks;
                 }
-                
+
             }
             CompareGraph.Plot.Clear();
             GetsGraph.Plot.Clear();
             TimeGraph.Plot.Clear();
 
-            CompareGraph.Plot.AddSignal(Comps);
-            GetsGraph.Plot.AddSignal(Gets);
-            TimeGraph.Plot.AddSignal(Time);
+            _ = CompareGraph.Plot.AddSignal(Comps);
+            _ = GetsGraph.Plot.AddSignal(Gets);
+            _ = TimeGraph.Plot.AddSignal(Time);
 
             CompareGraph.Render();
             GetsGraph.Render();
@@ -238,14 +247,13 @@ namespace Sorting_algorithm_benchmark_grapher
 
             SizeSlider.IsEnabled = true;
             if (DistribBox != null)
+            {
                 DistribBox.IsEnabled = true;
-            SortButton.IsEnabled = true;
-            AllSorts.IsEnabled = true;
-        }
+            }
 
-        public void BenchmarkParallel(int i)
-        {
-            
+            SortButton.IsEnabled = true;
+            GenericSorts.IsEnabled = true;
+            IntegerSorts.IsEnabled = true;
         }
 
         public void UpdateArray()
@@ -253,22 +261,28 @@ namespace Sorting_algorithm_benchmark_grapher
             Display.Plot.Clear();
             double[] graphArr = new double[Arr.Length];
             graphArr = Arr.Select(x => (double)x).ToArray();
-            Display.Plot.AddSignal(graphArr);
+            _ = Display.Plot.AddSignal(graphArr);
             Display.Render();
         }
 
         public void Initialize() // distribution changed
         {
-                Arr = new ArrayInt[SizeSlider != null ? (int)SizeSlider.Value : 256];
-                if (DistribBox != null)
+            Arr = new ArrayInt[SizeSlider != null ? (int)SizeSlider.Value : 256];
+            if (DistribBox != null)
+            {
                 distribs[DistribBox.SelectedIndex].InitializeArray(Arr);
-                UpdateArray();
+            }
+
+            UpdateArray();
         }
 
         public void Shuffle()
         {
             if (ShuffleBox != null)
+            {
                 shuffles[ShuffleBox.SelectedIndex].ShuffleArray(Arr, 0, Arr.Length, cmp);
+            }
+
             UpdateArray();
         }
 
@@ -301,7 +315,10 @@ namespace Sorting_algorithm_benchmark_grapher
         private void ShuffleBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (resetdist)
+            {
                 Initialize();
+            }
+
             Shuffle();
         }
 
@@ -325,17 +342,37 @@ namespace Sorting_algorithm_benchmark_grapher
             Initialize();
         }
 
-        private void AllSorts_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void GenericSorts_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (sorts[AllSorts.SelectedIndex].Message != "")
+            if (Sorts.SelectedIndex == 0)
             {
-                Parameter.IsEnabled = true;
-                Parameter.Text = sorts[AllSorts.SelectedIndex].Message;
+                if (genrcsorts[GenericSorts.SelectedIndex].Message != "")
+                {
+                    Parameter.IsEnabled = true;
+                    MessageText.Text = genrcsorts[GenericSorts.SelectedIndex].Message;
+                }
+                else
+                {
+                    Parameter.IsEnabled = false;
+                    MessageText.Text = "";
+                }
             }
-            else
+        }
+
+        private void IntegerSorts_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (Sorts.SelectedIndex == 1)
             {
-                Parameter.IsEnabled = false;
-                Parameter.Text = "";
+                if (intsorts[IntegerSorts.SelectedIndex].Message != "")
+                {
+                    Parameter.IsEnabled = true;
+                    MessageText.Text = intsorts[IntegerSorts.SelectedIndex].Message;
+                }
+                else
+                {
+                    Parameter.IsEnabled = false;
+                    MessageText.Text = "";
+                }
             }
         }
     }

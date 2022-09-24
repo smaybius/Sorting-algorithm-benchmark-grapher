@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Sorting_algorithm_benchmark_grapher
 {
-    
+
     public sealed class Linear : IDistribution
     {
         public string Title => "Linear";
@@ -14,7 +10,9 @@ namespace Sorting_algorithm_benchmark_grapher
         public void InitializeArray(ArrayInt[] array)
         {
             for (int i = 0; i < array.Length; i++)
+            {
                 array[i] = i;
+            }
         }
     }
 
@@ -26,7 +24,9 @@ namespace Sorting_algorithm_benchmark_grapher
         {
             Random random = new();
             for (int i = 0; i < array.Length; i++)
+            {
                 array[i] = random.Next(array.Length);
+            }
         }
     }
 }

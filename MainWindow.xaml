@@ -77,13 +77,13 @@
            />
         <Grid Grid.Row="8" VerticalAlignment="Top" Height="102" Margin="0,10,5,0" Grid.ColumnSpan="2">
 
-            <Button x:Name="SortButton" Content="Sort and benchmark" Height="32" Width="200" FontSize="20" Click="SortButton_Click" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,60,0,0"/>
+            <Button x:Name="SortButton" Content="Sort and benchmark" Height="32" Width="200" FontSize="20" Click="SortButton_Click" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="245,60,0,0"/>
             <CheckBox x:Name="ShuffleCheck" Content="Shuffle uses other shuffles" HorizontalAlignment="Right" Margin="0,68,28,0" VerticalAlignment="Top" Checked="ShuffleCheck_Checked" Unchecked="ShuffleCheck_Unchecked" IsChecked="True"/>
-            <CheckBox x:Name="ResetCheck" Content="Reset distribution on shuffle change" HorizontalAlignment="Left" Margin="9,68,0,0" VerticalAlignment="Top" IsChecked="True" Checked="ResetCheck_Checked" Unchecked="ResetCheck_Unchecked"/>
-            <Button x:Name="ShuffleButton" Content="Reshuffle" Height="30" FontSize="20" Click="ShuffleButton_Click" VerticalAlignment="Top" Margin="0,10,65,0" HorizontalAlignment="Right"/>
+            <CheckBox x:Name="ResetCheck" Content="Reset preview dist on shuffle change" HorizontalAlignment="Left" Margin="9,68,0,0" VerticalAlignment="Top" IsChecked="True" Checked="ResetCheck_Checked" Unchecked="ResetCheck_Unchecked"/>
+            <Button x:Name="ShuffleButton" Content="Reshuffle" Height="30" FontSize="20" Click="ShuffleButton_Click" VerticalAlignment="Top" Margin="0,9,10,0" HorizontalAlignment="Right"/>
             <Button x:Name="ResetButton" Content="Reset distribution" Height="30" FontSize="20" Click="ResetButton_Click" VerticalAlignment="Top" Margin="35,10,0,0" HorizontalAlignment="Left"/>
-            <TextBox x:Name="Parameter" HorizontalAlignment="Center" Margin="0,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="200" Height="28" FontSize="18" Text="{Binding Path=BoxText}" IsEnabled="False"/>
-            <TextBlock x:Name="MessageText" HorizontalAlignment="Center" Margin="0,39,0,0" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top" Width="200" TextAlignment="Center"/>
+            <TextBox x:Name="Parameter" HorizontalAlignment="Left" Margin="273,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="200" Height="28" FontSize="18" Text="{Binding Path=BoxText}" IsEnabled="False"/>
+            <TextBlock x:Name="MessageText" Margin="198,39,100,0" TextWrapping="Wrap" VerticalAlignment="Top" TextAlignment="Center"/>
         </Grid>
         <GridSplitter Grid.Column="1" 
               Grid.RowSpan="7" 
@@ -93,11 +93,20 @@
               ShowsPreview="true"
               Width="5"/>
         <Grid Grid.Column="2" Grid.RowSpan="7">
-            <TabControl x:Name="SortCategories">
+            <TabControl>
                 <TabItem Header="All sorts">
-                    <ListBox x:Name="AllSorts" SelectionMode="Single" SelectionChanged="AllSorts_SelectionChanged" SelectedIndex="0">
+                    <TabControl x:Name="Sorts">
+                        <TabItem Header="Generic sorts">
+                            <ListBox x:Name="GenericSorts" SelectionMode="Single" SelectionChanged="GenericSorts_SelectionChanged" SelectedIndex="0">
 
-                    </ListBox>
+                            </ListBox>
+                        </TabItem>
+                        <TabItem Header="Integer sorts">
+                            <ListBox x:Name="IntegerSorts" SelectionMode="Single" SelectionChanged="IntegerSorts_SelectionChanged" SelectedIndex="0">
+
+                            </ListBox>
+                        </TabItem>
+                    </TabControl>
                 </TabItem>
                 <TabItem Header="Shuffles">
                     <ListBox x:Name="ShuffleBox" SelectionMode="Single" SelectionChanged="ShuffleBox_SelectionChanged" SelectedIndex="0">

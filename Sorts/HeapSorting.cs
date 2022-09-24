@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace Sorting_algorithm_benchmark_grapher.Sorts
 {
@@ -10,11 +6,7 @@ namespace Sorting_algorithm_benchmark_grapher.Sorts
     {
         public static void SiftDown<T>(T[] array, int root, int dist, int start, bool isMax, IComparer<T> cmp)
         {
-            int compareVal;
-
-            if (isMax) compareVal = -1;
-            else compareVal = 1;
-
+            int compareVal = isMax ? -1 : 1;
             while (root <= dist / 2)
             {
                 int leaf = 2 * root;
@@ -27,7 +19,10 @@ namespace Sorting_algorithm_benchmark_grapher.Sorts
                     Sort.Swap(array, start + root - 1, start + leaf - 1);
                     root = leaf;
                 }
-                else break;
+                else
+                {
+                    break;
+                }
             }
         }
 

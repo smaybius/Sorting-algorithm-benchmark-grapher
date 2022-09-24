@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Shapes;
+using System.Numerics;
 
 namespace Sorting_algorithm_benchmark_grapher
 {
@@ -31,7 +28,7 @@ namespace Sorting_algorithm_benchmark_grapher
 
         }
 
-        public static void MultiSwap<T>(T[] array, int pos, int to)
+        public static void Pull<T>(T[] array, int pos, int to)
         {
             if (to - pos > 0)
             {
@@ -49,10 +46,6 @@ namespace Sorting_algorithm_benchmark_grapher
             }
         }
 
-        public static void Write<T>(T[] array, int at, T equals)
-        {
-            array[at] = equals;
-        }
 
         public static void Reversal<T>(T[] array, int start, int length)
         {
@@ -88,7 +81,9 @@ namespace Sorting_algorithm_benchmark_grapher
         public static void Rotate<T>(T[] array, int pos, int lenA, int lenB)
         {
             if (lenA < 1 || lenB < 1)
+            {
                 return;
+            }
 
             int a = pos;
             int b = pos + lenA - 1;
@@ -99,24 +94,24 @@ namespace Sorting_algorithm_benchmark_grapher
             while (a < b && c < d)
             {
                 swap = array[b];
-                Write(array, b--, array[a]);
-                Write(array, a++, array[c]);
-                Write(array, c++, array[d]);
-                Write(array, d--, swap);
+                array[b--] = array[a];
+                array[a++] = array[c];
+                array[c++] = array[d];
+                array[d--] = swap;
             }
             while (a < b)
             {
                 swap = array[b];
-                Write(array, b--, array[a]);
-                Write(array, a++, array[d]);
-                Write(array, d--, swap);
+                array[b--] = array[a];
+                array[a++] = array[d];
+                array[d--] = swap;
             }
             while (c < d)
             {
                 swap = array[c];
-                Write(array, c++, array[d]);
-                Write(array, d--, array[a]);
-                Write(array, a++, swap);
+                array[c++] = array[d];
+                array[d--] = array[a];
+                array[a++] = swap;
             }
             if (a < d)
             { // dont count reversals that dont do anything
@@ -135,7 +130,10 @@ namespace Sorting_algorithm_benchmark_grapher
                 T val = array[i];
 
 
-                if (cmp.Compare(val, max) > 0) max = val;
+                if (cmp.Compare(val, max) > 0)
+                {
+                    max = val;
+                }
             }
 
             return max;
@@ -151,10 +149,124 @@ namespace Sorting_algorithm_benchmark_grapher
 
                 T val = array[i];
 
-                if (cmp.Compare(val, min) < 0) min = val;
+                if (cmp.Compare(val, min) < 0)
+                {
+                    min = val;
+                }
             }
 
             return min;
+        }
+        public static int GetDigit(int a, int power, int radix)
+        {
+
+            int digit;
+            try
+            {
+                digit = (int)(a / Math.Pow(radix, power)) % radix;
+            }
+            catch (DivideByZeroException)
+            {
+                digit = 1;
+            }
+            return digit;
+        }
+        public static void FancyTranscribe(ArrayInt[] array, int length, List<int>[] registers)
+        {
+            ArrayInt[] tempArray = new ArrayInt[length];
+            bool[] tempWrite = new bool[length];
+            int radix = registers.Length;
+
+            Transcribe(tempArray, registers, 0);
+
+            for (int i = 0; i < length; i++)
+            {
+                int register = i % radix;
+                int pos = (register * (length / radix)) + (i / radix);
+
+                if (!tempWrite[pos])
+                {
+                    array[pos] = tempArray[pos];
+                    tempWrite[pos] = true;
+                }
+            }
+            for (int i = 0; i < length; i++)
+            {
+                if (!tempWrite[i])
+                {
+                    array[i] = tempArray[i];
+                }
+            }
+        }
+
+        public static void Transcribe(ArrayInt[] array, List<int>[] registers, int start)
+        {
+            int total = start;
+
+            for (int index = 0; index < registers.Length; index++)
+            {
+                for (int i = 0; i < registers[index].Count; i++)
+                {
+                    array[total++] = registers[index][i];
+                }
+                registers[index].Clear();
+            }
+        }
+        public static int AnalyzeMaxLog(ArrayInt[] array, int length, int bse)
+        {
+
+            int max = 0;
+
+            for (int i = 0; i < length; i++)
+            {
+                int val = array[i];
+
+                if (val > max)
+                {
+                    max = val;
+                }
+            }
+
+            return (int)(Math.Log(max) / Math.Log(bse));
+        }
+        public static T[] CopyOf<T>(T[] original, int newLength) //copied from https://github.com/openjdk/jdk/blob/master/src/java.base/share/classes/java/util/Arrays.java
+        {
+            T[] copy = new T[newLength];
+            Array.Copy(original, 0, copy, 0,
+                             Math.Min(original.Length, newLength));
+            return copy;
+        }
+
+        public static T[] CopyOfRange<T>(T[] original, int from, int to) //copied from https://github.com/openjdk/jdk/blob/master/src/java.base/share/classes/java/util/Arrays.java
+        {
+            int newLength = to - from;
+            T[] copy = new T[newLength];
+            Array.Copy(original, from, copy, 0,
+                             Math.Min(original.Length - from, newLength));
+            return copy;
+        }
+
+        public static bool GetBit(int n, int k)
+        {
+            // Find boolean value of bit k in n
+            return ((n >> k) & 1) == 1;
+        }
+
+        public static int AnalyzeBit(ArrayInt[] array, int length)
+        {
+            // Find highest bit of highest value
+            int max = 0;
+
+            for (int i = 0; i < length; i++)
+            {
+                int val = array[i];
+                if (val > max)
+                {
+                    max = val;
+                }
+            }
+
+            return 31 - BitOperations.LeadingZeroCount((uint)max);
         }
     }
 }

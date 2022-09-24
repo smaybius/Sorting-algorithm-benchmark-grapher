@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
-namespace Sorting_algorithm_benchmark_grapher
+namespace Sorting_algorithm_benchmark_grapher.Sorts
 {
     internal class GrailSorter : ISorter
     {
@@ -16,9 +12,9 @@ namespace Sorting_algorithm_benchmark_grapher
 
         public Complexity Time => Complexity.GOOD;
 
-        public void RunSort<T>(T[] array, int sortLength, double parameter, IComparer<T> cmp)
+        public void RunSort<T>(T[] array, int sortLength, int parameter, IComparer<T> cmp)
         {
-            GrailsortTester.GrailSort<T> gs = new(cmp);
+            GrailSort<T> gs = new(cmp);
             gs.GrailSortInPlace(array, 0, sortLength);
         }
     }

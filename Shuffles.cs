@@ -1,10 +1,5 @@
-﻿using ScottPlot.Drawing.Colormaps;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static Sorting_algorithm_benchmark_grapher.PenultimateBitonic;
 
 namespace Sorting_algorithm_benchmark_grapher
 {
@@ -14,7 +9,7 @@ namespace Sorting_algorithm_benchmark_grapher
 
         public void ShuffleArray<T>(T[] array, int start, int end, IComparer<T> cmp)
         {
-            ShuffleUtils.Shuffle(array, start, end);
+            ShufUtils.Shuffle(array, start, end);
         }
     }
 
@@ -36,7 +31,7 @@ namespace Sorting_algorithm_benchmark_grapher
         {
             for (int i = 0; i < Math.Max(end / 20, 1); i++)
             {
-                Sort.Swap(array, ShuffleUtils.random.Next(end), ShuffleUtils.random.Next(end));
+                Sort.Swap(array, ShufUtils.random.Next(end), ShufUtils.random.Next(end));
             }
         }
     }
@@ -58,7 +53,9 @@ namespace Sorting_algorithm_benchmark_grapher
         public void ShuffleArray<T>(T[] array, int start, int end, IComparer<T> cmp)
         {
             for (int i = 0; i < end; i++)
-                Sort.Swap(array, i, ShuffleUtils.random.Next(end));
+            {
+                Sort.Swap(array, i, ShufUtils.random.Next(end));
+            }
         }
     }
 
@@ -68,7 +65,7 @@ namespace Sorting_algorithm_benchmark_grapher
 
         public void ShuffleArray<T>(T[] array, int start, int end, IComparer<T> cmp)
         {
-            ShuffleUtils.ShuffledTail(array, start, end, 7);
+            ShufUtils.ShuffledTail(array, start, end, 7);
         }
     }
 
@@ -78,7 +75,7 @@ namespace Sorting_algorithm_benchmark_grapher
 
         public void ShuffleArray<T>(T[] array, int start, int end, IComparer<T> cmp)
         {
-            ShuffleUtils.ShuffledHead(array, start, end, 7);
+            ShufUtils.ShuffledHead(array, start, end, 7);
         }
     }
 
@@ -88,8 +85,8 @@ namespace Sorting_algorithm_benchmark_grapher
 
         public void ShuffleArray<T>(T[] array, int start, int end, IComparer<T> cmp)
         {
-            ShuffleUtils.ShuffledHead(array, start, end, 7);
-            ShuffleUtils.ShuffledTail(array, start, end, 7);
+            ShufUtils.ShuffledHead(array, start, end, 7);
+            ShufUtils.ShuffledTail(array, start, end, 7);
         }
     }
 
@@ -99,8 +96,8 @@ namespace Sorting_algorithm_benchmark_grapher
 
         public void ShuffleArray<T>(T[] array, int start, int end, IComparer<T> cmp)
         {
-            int begin = ShuffleUtils.random.Next(end);
-            int dest = ShuffleUtils.random.Next(end);
+            _ = ShufUtils.random.Next(end);
+            int dest = ShufUtils.random.Next(end);
             if (dest < start)
             {
                 Sort.IndexedRotate(array, dest, start, start + 1);
@@ -118,8 +115,8 @@ namespace Sorting_algorithm_benchmark_grapher
 
         public void ShuffleArray<T>(T[] array, int start, int end, IComparer<T> cmp)
         {
-            int begin = ShuffleUtils.random.Next(end);
-            int dest = ShuffleUtils.random.Next(end);
+            int begin = ShufUtils.random.Next(end);
+            int dest = ShufUtils.random.Next(end);
             Sort.Swap(array, begin, dest);
         }
     }
@@ -130,8 +127,8 @@ namespace Sorting_algorithm_benchmark_grapher
 
         public void ShuffleArray<T>(T[] array, int start, int end, IComparer<T> cmp)
         {
-            int begin = ShuffleUtils.random.Next(end);
-            int dest = ShuffleUtils.random.Next(end);
+            int begin = ShufUtils.random.Next(end);
+            int dest = ShufUtils.random.Next(end);
             Sort.Reversal(array, begin, dest);
         }
     }
@@ -142,9 +139,9 @@ namespace Sorting_algorithm_benchmark_grapher
 
         public void ShuffleArray<T>(T[] array, int start, int end, IComparer<T> cmp)
         {
-            int begin = ShuffleUtils.random.Next(end);
-            int dest = ShuffleUtils.random.Next(end);
-            Sort.MultiSwap(array, begin, dest);
+            int begin = ShufUtils.random.Next(end);
+            int dest = ShufUtils.random.Next(end);
+            Sort.Pull(array, begin, dest);
         }
     }
 
@@ -154,10 +151,10 @@ namespace Sorting_algorithm_benchmark_grapher
 
         public void ShuffleArray<T>(T[] array, int start, int end, IComparer<T> cmp)
         {
-            int len = ShuffleUtils.random.Next(end);
-            int begin = ShuffleUtils.random.Next(end - len);
-            int dest = ShuffleUtils.random.Next(end - len);
-            bool dir = ShuffleUtils.random.NextDouble() >= 0.5;
+            int len = ShufUtils.random.Next(end);
+            int begin = ShufUtils.random.Next(end - len);
+            int dest = ShufUtils.random.Next(end - len);
+            bool dir = ShufUtils.random.NextDouble() >= 0.5;
 
             if (begin + len >= end)
             { // add / 2 to end on the int declarers for start dest and len
@@ -178,13 +175,17 @@ namespace Sorting_algorithm_benchmark_grapher
             }
 
             if (dir)
+            {
                 Sort.BlockSwap(array, begin, dest, len);
+            }
             else
+            {
                 Sort.BlockSwapBackwards(array, begin, dest, len);
+            }
         }
     }
 
-    
+
 
     public class RandomRotation : IShuffle
     {
@@ -192,11 +193,11 @@ namespace Sorting_algorithm_benchmark_grapher
 
         public void ShuffleArray<T>(T[] array, int start, int end, IComparer<T> cmp)
         {
-            int a = ShuffleUtils.random.Next(end);
-            int b = ShuffleUtils.random.Next(end);
+            int a = ShufUtils.random.Next(end);
+            int b = ShufUtils.random.Next(end);
             int begin = Math.Min(a, b);
             int last = Math.Max(a, b) + 1;
-            int mid = ShuffleUtils.random.Next(begin, last);
+            int mid = ShufUtils.random.Next(begin, last);
             Sort.IndexedRotate(array, start, mid, end);
         }
     }
@@ -232,9 +233,12 @@ namespace Sorting_algorithm_benchmark_grapher
         {
             int i;
             int size = Math.Max(4, (int)(Math.Sqrt(end) / 2));
-            for (i = 0; i + size <= end; i += ShuffleUtils.random.Next(size - 1) + 1)
-                ShuffleUtils.Shuffle(array, i, i + size);
-            ShuffleUtils.Shuffle(array, i, end);
+            for (i = 0; i + size <= end; i += ShufUtils.random.Next(size - 1) + 1)
+            {
+                ShufUtils.Shuffle(array, i, i + size);
+            }
+
+            ShufUtils.Shuffle(array, i, end);
         }
     }
 
@@ -246,7 +250,7 @@ namespace Sorting_algorithm_benchmark_grapher
         {
             for (int i = 1; i < end; i += 2)
             {
-                int randomIndex = ((ShuffleUtils.random.Next(end - i) / 2) * 2) + i;
+                int randomIndex = (ShufUtils.random.Next(end - i) / 2 * 2) + i;
                 Sort.Swap(array, i, randomIndex);
             }
         }
@@ -258,7 +262,7 @@ namespace Sorting_algorithm_benchmark_grapher
 
         public void ShuffleArray<T>(T[] array, int start, int end, IComparer<T> cmp)
         {
-            ShuffleUtils.FinalMerge(array, start, end, 2);
+            ShufUtils.FinalMerge(array, start, end, 2);
         }
     }
 
@@ -269,9 +273,12 @@ namespace Sorting_algorithm_benchmark_grapher
         public void ShuffleArray<T>(T[] array, int start, int end, IComparer<T> cmp)
         {
             if (MainWindow.ExtraShuffles)
-                ShuffleUtils.Shuffle(array, start, end);
+            {
+                ShufUtils.Shuffle(array, start, end);
+            }
+
             Array.Sort(array, start, end / 2, cmp);
-            Array.Sort(array, end / 2 + 1, end, cmp);
+            Array.Sort(array, (end / 2) + 1, end, cmp);
         }
     }
 
@@ -281,7 +288,7 @@ namespace Sorting_algorithm_benchmark_grapher
 
         public void ShuffleArray<T>(T[] array, int start, int end, IComparer<T> cmp)
         {
-            ShuffleUtils.ShuffledTail(array, start, end, 2);
+            ShufUtils.ShuffledTail(array, start, end, 2);
         }
     }
 
@@ -291,7 +298,7 @@ namespace Sorting_algorithm_benchmark_grapher
 
         public void ShuffleArray<T>(T[] array, int start, int end, IComparer<T> cmp)
         {
-            ShuffleUtils.ShuffledHead(array, start, end, 2);
+            ShufUtils.ShuffledHead(array, start, end, 2);
         }
     }
 
@@ -302,9 +309,12 @@ namespace Sorting_algorithm_benchmark_grapher
         public void ShuffleArray<T>(T[] array, int start, int end, IComparer<T> cmp)
         {
             if (MainWindow.ExtraShuffles)
+            {
                 Array.Sort(array, start, end, cmp);
-            ShuffleUtils.Shuffle(array, start, end / 2);
-            ShuffleUtils.Shuffle(array, end / 2, end);
+            }
+
+            ShufUtils.Shuffle(array, start, end / 2);
+            ShufUtils.Shuffle(array, end / 2, end);
         }
     }
 
@@ -315,13 +325,20 @@ namespace Sorting_algorithm_benchmark_grapher
         public void ShuffleArray<T>(T[] array, int start, int end, IComparer<T> cmp)
         {
             if (MainWindow.ExtraShuffles)
+            {
                 Array.Sort(array, start, end, cmp);
+            }
+
             for (int i = 1; i < end - 1; i *= 2)
             {
                 if (i * 2 < end)
-                    ShuffleUtils.Shuffle(array, i, i * 2);
+                {
+                    ShufUtils.Shuffle(array, i, i * 2);
+                }
                 else
-                    ShuffleUtils.Shuffle(array, i, end - 1);
+                {
+                    ShufUtils.Shuffle(array, i, end - 1);
+                }
             }
         }
     }
@@ -333,13 +350,20 @@ namespace Sorting_algorithm_benchmark_grapher
         public void ShuffleArray<T>(T[] array, int start, int end, IComparer<T> cmp)
         {
             if (MainWindow.ExtraShuffles)
+            {
                 Array.Sort(array, start, end, cmp);
+            }
+
             for (int i = 1; i < end - 1; i *= 2)
             {
                 if (i * 2 < end)
+                {
                     Sort.Reversal(array, i, i * 2);
+                }
                 else
+                {
                     Sort.Reversal(array, i, end - 1);
+                }
             }
         }
     }
@@ -351,13 +375,20 @@ namespace Sorting_algorithm_benchmark_grapher
         public void ShuffleArray<T>(T[] array, int start, int end, IComparer<T> cmp)
         {
             if (MainWindow.ExtraShuffles)
+            {
                 Array.Sort(array, start, end, cmp);
+            }
+
             for (int i = 1; i < end - 1; i *= 2)
             {
                 if (i * 2 < end)
+                {
                     Sort.Swap(array, i, i * 2);
+                }
                 else
+                {
                     Sort.Swap(array, i, end - 1);
+                }
             }
         }
     }
@@ -369,19 +400,20 @@ namespace Sorting_algorithm_benchmark_grapher
         public void ShuffleArray<T>(T[] array, int start, int end, IComparer<T> cmp)
         {
             if (MainWindow.ExtraShuffles)
-                ShuffleUtils.Shuffle(array, start, end);
+            {
+                ShufUtils.Shuffle(array, start, end);
+            }
+
             int offset = 1;
-            double mult = start;
-            int bound = start;
             while (offset != end)
             {
-                mult = 1;
-                bound = 1;
+                double mult = 1;
+                int bound = 1;
                 while (offset + mult <= end)
                 {
-                    if (Sort.CompareIndices(array, (int)(offset + mult / 2) - 1, (int)(offset + mult) - 1, cmp) > 0)
+                    if (Sort.CompareIndices(array, (int)(offset + (mult / 2)) - 1, (int)(offset + mult) - 1, cmp) > 0)
                     {
-                        Sort.Swap(array, (int)(offset + mult / 2) - 1, (int)(offset + mult) - 1);
+                        Sort.Swap(array, (int)(offset + (mult / 2)) - 1, (int)(offset + mult) - 1);
                         if (mult == 1 / 2)
                         {
                             bound *= 2;
@@ -409,7 +441,7 @@ namespace Sorting_algorithm_benchmark_grapher
 
         public void ShuffleArray<T>(T[] array, int start, int end, IComparer<T> cmp)
         {
-            ShuffleUtils.FinalMerge(array, start, end, 4);
+            ShufUtils.FinalMerge(array, start, end, 4);
         }
     }
 
@@ -419,7 +451,7 @@ namespace Sorting_algorithm_benchmark_grapher
 
         public void ShuffleArray<T>(T[] array, int start, int end, IComparer<T> cmp)
         {
-            ShuffleUtils.PipeOrgan(array, start, end);
+            ShufUtils.PipeOrgan(array, start, end);
         }
     }
 
@@ -430,7 +462,7 @@ namespace Sorting_algorithm_benchmark_grapher
         public void ShuffleArray<T>(T[] array, int start, int end, IComparer<T> cmp)
         {
             Array.Reverse(array, start, end);
-            ShuffleUtils.PipeOrgan(array, start, end);
+            ShufUtils.PipeOrgan(array, start, end);
         }
     }
 
@@ -440,11 +472,13 @@ namespace Sorting_algorithm_benchmark_grapher
 
         public void ShuffleArray<T>(T[] array, int start, int end, IComparer<T> cmp)
         {
-            ShuffleUtils.FinalMerge(array, start, end, 2);
+            ShufUtils.FinalMerge(array, start, end, 2);
             for (int i = 0, j = end - 1; i < end / 2; i++, j--)
             {
                 if (Sort.CompareIndices(array, i, j, cmp) > 0)
+                {
                     Sort.Swap(array, i, j);
+                }
             }
         }
     }
@@ -455,8 +489,8 @@ namespace Sorting_algorithm_benchmark_grapher
 
         public void ShuffleArray<T>(T[] array, int start, int end, IComparer<T> cmp)
         {
-            ShuffleUtils.PipeOrgan(array, start, end);
-            ShuffleUtils.PartRotation(array, start, end, 4);
+            ShufUtils.PipeOrgan(array, start, end);
+            ShufUtils.PartRotation(array, start, end, 4);
         }
     }
 
@@ -466,7 +500,7 @@ namespace Sorting_algorithm_benchmark_grapher
 
         public void ShuffleArray<T>(T[] array, int start, int end, IComparer<T> cmp)
         {
-            ShuffleUtils.FinalMerge(array, start, end, 2);
+            ShufUtils.FinalMerge(array, start, end, 2);
             Array.Reverse(array, start, end);
         }
     }
@@ -477,7 +511,7 @@ namespace Sorting_algorithm_benchmark_grapher
 
         public void ShuffleArray<T>(T[] array, int start, int end, IComparer<T> cmp)
         {
-            ShuffleUtils.FinalMerge(array, start, end, 4);
+            ShufUtils.FinalMerge(array, start, end, 4);
             Array.Reverse(array, start, end);
         }
     }
@@ -491,7 +525,7 @@ namespace Sorting_algorithm_benchmark_grapher
             T[] referenceArray = new T[end];
             for (int i = 0; i < end; i++)
             {
-                Sort.Write(referenceArray, i, array[i]);
+                referenceArray[i] = array[i];
             }
 
             int leftIndex = 1;
@@ -499,14 +533,7 @@ namespace Sorting_algorithm_benchmark_grapher
 
             for (int i = 1; i < end; i++)
             {
-                if (i % 2 == 0)
-                {
-                    Sort.Write(array, i, referenceArray[leftIndex++]);
-                }
-                else
-                {
-                    Sort.Write(array, i, referenceArray[rightIndex--]);
-                }
+                array[i] = i % 2 == 0 ? referenceArray[leftIndex++] : referenceArray[rightIndex--];
             }
         }
     }
@@ -534,7 +561,7 @@ namespace Sorting_algorithm_benchmark_grapher
             {
                 Sort.Swap(array, i, end - i - 1);
             }
-            ShuffleUtils.PartRotation(array, start, end, 2);
+            ShufUtils.PartRotation(array, start, end, 2);
         }
     }
 
@@ -549,12 +576,14 @@ namespace Sorting_algorithm_benchmark_grapher
             T[] temp = new T[mid];
 
             for (int i = 0; i < mid; i++)
-                Sort.Write(temp, i, array[i]);
+            {
+                temp[i] = array[i];
+            }
 
             for (int i = mid, j = 0; i < end; i++, j += 2)
             {
-                Sort.Write(array, j, array[i]);
-                Sort.Write(array, j + 1, temp[i - mid]);
+                array[j] = array[i];
+                array[j + 1] = temp[i - mid];
             }
         }
     }
@@ -582,19 +611,22 @@ namespace Sorting_algorithm_benchmark_grapher
         public void WeaveRec<T>(T[] array, int pos, int length, int gap, T[] temp)
         {
             if (length < 2)
+            {
                 return;
+            }
+
             int mod2 = length % 2;
             length -= mod2;
             int mid = length / 2;
 
-            for (int i = pos, j = 0; i < pos + gap * mid; i += gap, j++)
+            for (int i = pos, j = 0; i < pos + (gap * mid); i += gap, j++)
             {
-                Sort.Write(temp, j, array[i]);
+                temp[j] = array[i];
             }
-            for (int i = pos + gap * mid, j = pos, k = 0; i < pos + gap * length; i += gap, j += 2 * gap, k++)
+            for (int i = pos + (gap * mid), j = pos, k = 0; i < pos + (gap * length); i += gap, j += 2 * gap, k++)
             {
-                Sort.Write(array, j, array[i]);
-                Sort.Write(array, j + gap, temp[k]);
+                array[j] = array[i];
+                array[j + gap] = temp[k];
             }
             WeaveRec(array, pos, mid + mod2, 2 * gap, temp);
             WeaveRec(array, pos + gap, mid, 2 * gap, temp);
@@ -607,7 +639,7 @@ namespace Sorting_algorithm_benchmark_grapher
 
         public void ShuffleArray<T>(T[] array, int start, int end, IComparer<T> cmp)
         {
-            ShuffleUtils.PartRotation(array, start, end, 2);
+            ShufUtils.PartRotation(array, start, end, 2);
         }
     }
 
@@ -617,7 +649,7 @@ namespace Sorting_algorithm_benchmark_grapher
 
         public void ShuffleArray<T>(T[] array, int start, int end, IComparer<T> cmp)
         {
-            ShuffleUtils.PartRotation(array, start, end, 4);
+            ShufUtils.PartRotation(array, start, end, 4);
         }
     }
 
@@ -628,7 +660,7 @@ namespace Sorting_algorithm_benchmark_grapher
         public void ShuffleArray<T>(T[] array, int start, int end, IComparer<T> cmp)
         {
             Sort.Reversal(array, 0, end - 1);
-            Sort.Reversal(array, end / 4, (3 * end + 3) / 4 - 1);
+            Sort.Reversal(array, end / 4, (((3 * end) + 3) / 4) - 1);
         }
     }
 
@@ -665,7 +697,7 @@ namespace Sorting_algorithm_benchmark_grapher
                 {
                     int mid = (sub.start + sub.end) / 2;
 
-                    Sort.Write(array, i, temp[mid]);
+                    array[i] = temp[mid];
                     i++;
                     q.Enqueue(new(sub.start, mid));
                     q.Enqueue(new(mid + 1, sub.end));
@@ -692,7 +724,7 @@ namespace Sorting_algorithm_benchmark_grapher
                 if (sub.start != sub.end)
                 {
                     int mid = (sub.start + sub.end) / 2;
-                    Sort.Write(temp, i, mid);
+                    temp[i] = mid;
                     i++;
                     q.Enqueue(new Subarray(sub.start, mid));
                     q.Enqueue(new Subarray(mid + 1, sub.end));
@@ -701,7 +733,9 @@ namespace Sorting_algorithm_benchmark_grapher
             T[] temp2 = new T[end];
             Array.Copy(array, start, temp2, 0, end);
             for (i = 0; i < end; i++)
-                Sort.Write(array, temp[i], temp2[i]);
+            {
+                array[temp[i]] = temp2[i];
+            }
         }
     }
 
@@ -713,15 +747,17 @@ namespace Sorting_algorithm_benchmark_grapher
         {
             T[] temp = new T[end];
             for (int i = 0; i < end; i++)
-                Sort.Write(temp, i, array[i]);
+            {
+                temp[i] = array[i];
+            }
 
             //writes.write(array, 0, 0);
             for (int i = 1; i < end; i++)
             {
                 int log = (int)(Math.Log(i) / Math.Log(2));
                 int power = (int)Math.Pow(2, log);
-                T value = temp[2 * (i - power) + 1];
-                Sort.Write(array, i, value);
+                T value = temp[(2 * (i - power)) + 1];
+                array[i] = value;
             }
         }
     }
@@ -743,14 +779,15 @@ namespace Sorting_algorithm_benchmark_grapher
         public void ShuffleArray<T>(T[] array, int start, int end, IComparer<T> cmp)
         {
             int a = start + 1;
-            int b = start;
-            int c = 0;
             if (MainWindow.ExtraShuffles)
-                ShuffleUtils.Shuffle(array, start, end);
+            {
+                ShufUtils.Shuffle(array, start, end);
+            }
+
             while (a < end)
             {
-                b = a;
-                c = 0;
+                int b = a;
+                int c = 0;
                 while (b < end)
                 {
                     if (Sort.CompareIndices(array, b - a, b, cmp) == 1)
@@ -769,9 +806,9 @@ namespace Sorting_algorithm_benchmark_grapher
         }
     }
 
-    public static class ShuffleUtils
+    public static class ShufUtils
     {
-        public readonly static Random random = new();
+        public static readonly Random random = new();
 
         public static void ShuffledHead<T>(T[] array, int start, int end, double frac)
         {
@@ -782,13 +819,19 @@ namespace Sorting_algorithm_benchmark_grapher
             while (i >= 0)
             {
                 if (random.Next() < 1 / frac)
-                    Sort.Write(aux, k++, array[i--]);
+                {
+                    aux[k++] = array[i--];
+                }
                 else
-                    Sort.Write(array, j--, array[i--]);
+                {
+                    array[j--] = array[i--];
+                }
             }
             Array.Copy(aux, 0, array, start, k);
             if (MainWindow.ExtraShuffles)
+            {
                 Shuffle(array, start, j);
+            }
         }
 
         public static void ShuffledTail<T>(T[] array, int start, int end, double frac)
@@ -800,13 +843,19 @@ namespace Sorting_algorithm_benchmark_grapher
             while (i < end)
             {
                 if (random.Next() < 1 / frac)
-                    Sort.Write(aux, k++, array[i++]);
+                {
+                    aux[k++] = array[i++];
+                }
                 else
-                    Sort.Write(array, j++, array[i++]);
+                {
+                    array[j++] = array[i++];
+                }
             }
             Array.Copy(aux, 0, array, j, k);
             if (MainWindow.ExtraShuffles)
+            {
                 Shuffle(array, j, end);
+            }
         }
 
         public static void FinalMerge<T>(T[] array, int start, int end, int count)
@@ -816,12 +865,17 @@ namespace Sorting_algorithm_benchmark_grapher
             T[] temp = new T[end];
 
             for (int j = 0; j < count; j++)
+            {
                 for (int i = j; i < end; i += count)
                 {
-                    Sort.Write(temp, k++, array[i]);
+                    temp[k++] = array[i];
                 }
+            }
+
             for (int i = start; i < end; i++)
-                Sort.Write(array, i, temp[i]);
+            {
+                array[i] = temp[i];
+            }
         }
 
         public static void PipeOrgan<T>(T[] array, int start, int end) //TODO: fix indexing
@@ -830,15 +884,15 @@ namespace Sorting_algorithm_benchmark_grapher
             end--;
             for (int i = start, j = start; i < end; i += 2, j++)
             {
-                Sort.Write(temp, j, array[i]);
+                temp[j] = array[i];
             }
             for (int i = start + 1, j = end; i < end; i += 2, --j)
             {
-                Sort.Write(temp, j, array[i]);
+                temp[j] = array[i];
             }
             for (int i = 0; i < end + 1; i++)
             {
-                Sort.Write(array, i, temp[i]);
+                array[i] = temp[i];
             }
         }
         public static void PartRotation<T>(T[] array, int start, int end, int div)
@@ -847,17 +901,21 @@ namespace Sorting_algorithm_benchmark_grapher
             int m = (end + 1) / div;
 
             if (end % 2 == 0)
+            {
                 while (m < end)
+                {
                     Sort.Swap(array, a++, m++);
+                }
+            }
             else
             {
                 T temp = array[a];
                 while (m < end)
                 {
-                    Sort.Write(array, a++, array[m]);
-                    Sort.Write(array, m++, array[a]);
+                    array[a++] = array[m];
+                    array[m++] = array[a];
                 }
-                Sort.Write(array, a, temp);
+                array[a] = temp;
             }
         }
         public static void Shuffle<T>(T[] array, int start, int end)

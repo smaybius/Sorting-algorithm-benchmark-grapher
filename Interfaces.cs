@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace Sorting_algorithm_benchmark_grapher
 {
@@ -27,6 +22,14 @@ namespace Sorting_algorithm_benchmark_grapher
         public string Message { get; }
         public string Category { get; }
         public Complexity Time { get; }
-        public void RunSort<T>(T[] array, int sortLength, double parameter, IComparer<T> cmp);
+        public void RunSort<T>(T[] array, int sortLength, int parameter, IComparer<T> cmp);
+    }
+
+    public interface IIntegerSorter
+    {
+        public string Title { get; }
+        public string Message { get; }
+        public Complexity Time { get; }
+        public void RunSort(ArrayInt[] array, int sortLength, int parameter, IComparer<ArrayInt> cmp);
     }
 }

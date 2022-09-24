@@ -1,11 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace Sorting_algorithm_benchmark_grapher.Sorts
 {
-    internal class MinHeapSort : ISorter
+    internal class TournamentSort : ISorter
     {
-        public string Title => "Min heap sort";
+        public string Title => "Tournament sort";
 
         public string Message => "";
 
@@ -15,8 +14,7 @@ namespace Sorting_algorithm_benchmark_grapher.Sorts
 
         public void RunSort<T>(T[] array, int sortLength, int parameter, IComparer<T> cmp)
         {
-            HeapSorting.HeapSort(array, 0, sortLength, false, cmp);
-            Array.Reverse(array);
+            _ = new TournamentSorter<T>(array, sortLength, cmp);
         }
     }
 }

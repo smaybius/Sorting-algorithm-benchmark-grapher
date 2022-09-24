@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 
 
-namespace GrailsortTester
+namespace Sorting_algorithm_benchmark_grapher.Sorts
 {
     [Serializable]
     [TypeForwardedFrom("mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089")]
@@ -473,14 +473,7 @@ namespace GrailsortTester
 
         private static Subarray GrailGetSubarray(K[] array, int currentKey, int medianKey, IComparer<K> cmp)
         {
-            if (cmp.Compare(array[currentKey], array[medianKey]) < 0)
-            {
-                return Subarray.LEFT;
-            }
-            else
-            {
-                return Subarray.RIGHT;
-            }
+            return cmp.Compare(array[currentKey], array[medianKey]) < 0 ? Subarray.LEFT : Subarray.RIGHT;
         }
 
 
@@ -556,14 +549,7 @@ namespace GrailsortTester
             else
             {
                 currBlockLen = end - right;
-                if (leftOrigin == Subarray.LEFT)
-                {
-                    currBlockOrigin = Subarray.RIGHT;
-                }
-                else
-                {
-                    currBlockOrigin = Subarray.LEFT;
-                }
+                currBlockOrigin = leftOrigin == Subarray.LEFT ? Subarray.RIGHT : Subarray.LEFT;
             }
         }
 
@@ -641,14 +627,7 @@ namespace GrailsortTester
             }
 
             currBlockLen = rightLen;
-            if (leftOrigin == Subarray.LEFT)
-            {
-                currBlockOrigin = Subarray.RIGHT;
-            }
-            else
-            {
-                currBlockOrigin = Subarray.LEFT;
-            }
+            currBlockOrigin = leftOrigin == Subarray.LEFT ? Subarray.RIGHT : Subarray.LEFT;
         }
 
         // Credit to Anonymous0726 for better variable names such as "nextBlock"
@@ -806,16 +785,7 @@ namespace GrailsortTester
                 // MISSING BOUNDS CHECK BUG FIXED: `lastFragment` can be 0 if the last two subarrays are evenly
                 //                                 divided into blocks. This prevents Grailsort from going out-of-bounds.
                 int lastFragment = lastSubarrays - (blockCount * blockLen);
-                int lastMergeBlocks;
-                if (lastFragment != 0)
-                {
-                    lastMergeBlocks = GrailCountLastMergeBlocks(array, offset, blockCount, blockLen, cmp);
-                }
-                else
-                {
-                    lastMergeBlocks = 0;
-                }
-
+                int lastMergeBlocks = lastFragment != 0 ? GrailCountLastMergeBlocks(array, offset, blockCount, blockLen, cmp) : 0;
                 int smartMerges = blockCount - lastMergeBlocks;
 
                 //TODO: Double-check if this micro-optimization works correctly like the original
@@ -1024,7 +994,7 @@ namespace GrailsortTester
 
             int blockLen = 1;
 
-            while ((blockLen * blockLen) < length)
+            while (blockLen * blockLen < length)
             {
                 blockLen <<= 1;
             }
@@ -1071,19 +1041,10 @@ namespace GrailsortTester
             }
 
             int bufferEnd = blockLen + keyLen;
-            int subarrayLen;
-            if (idealBuffer)
-            {
-                subarrayLen = blockLen;
-            }
-            else
-            {
-                subarrayLen = keyLen;
-            }
-
+            int subarrayLen = idealBuffer ? blockLen : keyLen;
             GrailBuildBlocks(array, start + bufferEnd, length - bufferEnd, subarrayLen, cmp);
 
-            while ((length - bufferEnd) > (2 * subarrayLen))
+            while (length - bufferEnd > 2 * subarrayLen)
             {
                 subarrayLen *= 2;
 
@@ -1097,7 +1058,7 @@ namespace GrailsortTester
                     int keyBuffer = keyLen / 2;
 
                     // TODO: Rewrite explanation for this math
-                    if (keyBuffer >= ((2 * subarrayLen) / keyBuffer))
+                    if (keyBuffer >= 2 * subarrayLen / keyBuffer)
                     {
                         currentBlockLen = keyBuffer;
                         scrollingBuffer = true;
@@ -1119,7 +1080,7 @@ namespace GrailsortTester
                          * currentBlockLen = (2 * subarrayLen) / minKeys;
                          */
 
-                        currentBlockLen = (2 * subarrayLen) / keyLen;
+                        currentBlockLen = 2 * subarrayLen / keyLen;
                     }
                 }
 

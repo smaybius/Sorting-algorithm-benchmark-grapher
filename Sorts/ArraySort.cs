@@ -1,11 +1,7 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Sorting_algorithm_benchmark_grapher
+namespace Sorting_algorithm_benchmark_grapher.Sorts
 {
     internal class ArraySort : ISorter
     {
@@ -17,7 +13,7 @@ namespace Sorting_algorithm_benchmark_grapher
 
         public Complexity Time => Complexity.GOOD;
 
-        public void RunSort<T>(T[] array, int end, double parameter, IComparer<T> cmp)
+        public void RunSort<T>(T[] array, int end, int parameter, IComparer<T> cmp)
         {
             Array.Sort(array, 0, end, comparer: cmp);
         }

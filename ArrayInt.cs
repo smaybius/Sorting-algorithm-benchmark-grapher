@@ -1,14 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Sorting_algorithm_benchmark_grapher
+﻿namespace Sorting_algorithm_benchmark_grapher
 {
-    public class ArrayInt
+    public struct ArrayInt
     {
 
         private int _value;
@@ -17,24 +9,61 @@ namespace Sorting_algorithm_benchmark_grapher
         {
             get
             {
-                MainWindow.mw?.AddGets();
+                MainWindow.AddGets();
                 return _value;
             }
-            private set
-            {
-                _value = value;
-            }
+            private set => _value = value;
         }
 
         public ArrayInt(int val)
         {
+            _value = val;
             Value = val;
-            MainWindow.mw?.AddGets();
+            MainWindow.AddGets();
         }
+
+
+        #region operators
+        public static bool operator ==(ArrayInt left, ArrayInt right)
+        {
+            MainWindow.AddComparison();
+            return left.Value == right.Value;
+        }
+
+        public static bool operator !=(ArrayInt left, ArrayInt right)
+        {
+            MainWindow.AddComparison();
+            return left.Value != right.Value;
+        }
+
+        public static bool operator <(ArrayInt left, ArrayInt right)
+        {
+            MainWindow.AddComparison();
+            return left.Value < right.Value;
+        }
+
+        public static bool operator >(ArrayInt left, ArrayInt right)
+        {
+            MainWindow.AddComparison();
+            return left.Value > right.Value;
+        }
+
+        public static bool operator <=(ArrayInt left, ArrayInt right)
+        {
+            MainWindow.AddComparison();
+            return left.Value <= right.Value;
+        }
+
+        public static bool operator >=(ArrayInt left, ArrayInt right)
+        {
+            MainWindow.AddComparison();
+            return left.Value >= right.Value;
+        }
+        #endregion
 
         public static implicit operator int(ArrayInt value)
         {
-            return value != null ? value.Value : 0;
+            return value.Value;
         }
 
         public static implicit operator ArrayInt(int value)

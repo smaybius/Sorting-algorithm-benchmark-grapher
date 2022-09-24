@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace Sorting_algorithm_benchmark_grapher.Sorts
 {
@@ -16,7 +12,7 @@ namespace Sorting_algorithm_benchmark_grapher.Sorts
 
         public Complexity Time => Complexity.GOOD;
 
-        public void RunSort<T>(T[] array, int sortLength, double parameter, IComparer<T> cmp)
+        public void RunSort<T>(T[] array, int sortLength, int parameter, IComparer<T> cmp)
         {
             HeapSorting.HeapSort(array, 0, sortLength, true, cmp);
         }

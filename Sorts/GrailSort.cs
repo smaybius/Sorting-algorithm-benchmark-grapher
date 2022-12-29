@@ -76,7 +76,6 @@ namespace Sorting_algorithm_benchmark_grapher.Sorts
         LEFT,
         RIGHT
     }
-#nullable enable
     public class GrailSort<K>
     {
         private int currBlockLen;

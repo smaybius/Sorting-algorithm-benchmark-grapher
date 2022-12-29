@@ -33,3 +33,8 @@ Press CTRL F and enable regular expressions
 - `Reads.compareIndices(array, a, b, delay, mark)`: it just means `Reads.compareValues(array[a], array[b])`. In other words, turn on regular expressions, find `Reads\.compareIndices\((.*?),(.*?),(.*?),.*?\)`, and replace with `cmp.Compare($1[$2], $1[$3])`.
 - ArrayInt is just int but with access monitoring. Replace int[] with T[] unless the arrays have non-generic operations such as arithmetic, bit operations, and math (as in array[i] + 1, or aux[array[i]]). Otherwise, either keep them as int[] or change them to ArrayInt[] for more accurate statistics.
 - `Writes.swap(array, a, b, delay, mark, auxwrite)`: With regular expressions, find `Writes\.swap\((.*?),(.*?),(.*?),.*?\)` and replace with `Sort.Swap($1, $2, $3)`
+
+# Licenses
+- The program itself is licensed under the GNU GPL v3.0 or later.
+- The sorts are licensed under various FOSS licenses.
+- The distribution and shuffle algorithms are licensed under the MIT license.

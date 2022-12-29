@@ -161,14 +161,7 @@ namespace Sorting_algorithm_benchmark_grapher
         {
 
             int digit;
-            try
-            {
-                digit = (int)(a / Math.Pow(radix, power)) % radix;
-            }
-            catch (DivideByZeroException)
-            {
-                digit = 1;
-            }
+            digit = (int)(a / Math.Pow(radix, power)) % radix;
             return digit;
         }
         public static void FancyTranscribe(ArrayInt[] array, int length, List<int>[] registers)
@@ -254,19 +247,24 @@ namespace Sorting_algorithm_benchmark_grapher
 
         public static int AnalyzeBit(ArrayInt[] array, int length)
         {
+
             // Find highest bit of highest value
             int max = 0;
 
             for (int i = 0; i < length; i++)
             {
+
                 int val = array[i];
-                if (val > max)
-                {
-                    max = val;
-                }
+
+                if (val > max) max = val;
             }
 
-            return 31 - BitOperations.LeadingZeroCount((uint)max);
+            int analysis;
+
+
+
+            analysis = 31 - BitOperations.LeadingZeroCount((uint)max);
+            return analysis;
         }
     }
 }

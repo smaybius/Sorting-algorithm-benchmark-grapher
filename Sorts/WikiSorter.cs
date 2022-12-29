@@ -334,14 +334,11 @@ For more information, please refer to <http://unlicense.org>
         private void Rotate(T[] array, int amount, Range range, bool use_cache)
         {
             if (range.Length() == 0)
+            {
                 return;
+            }
 
-            int split;
-            if (amount >= 0)
-                split = range.start + amount;
-            else
-                split = range.end + amount;
-
+            int split = amount >= 0 ? range.start + amount : range.end + amount;
             Range range1 = new(range.start, split);
             Range range2 = new(split, range.end);
 

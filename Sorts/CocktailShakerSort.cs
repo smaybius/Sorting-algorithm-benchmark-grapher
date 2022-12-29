@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace Sorting_algorithm_benchmark_grapher.Sorts
 {
@@ -23,24 +19,30 @@ namespace Sorting_algorithm_benchmark_grapher.Sorts
                 int consecSorted = 1;
                 for (int i = start; i < end; i++)
                 {
-                    if (cmp.Compare(array[ i], array[ i + 1]) > 0)
+                    if (cmp.Compare(array[i], array[i + 1]) > 0)
                     {
-                        Sort.Swap(array,  i,  i + 1);
+                        Sort.Swap(array, i, i + 1);
                         consecSorted = 1;
                     }
-                    else consecSorted++;
+                    else
+                    {
+                        consecSorted++;
+                    }
                 }
                 end -= consecSorted;
 
                 consecSorted = 1;
                 for (int i = end; i > start; i--)
                 {
-                    if (cmp.Compare(array[ i - 1], array[ i]) > 0)
+                    if (cmp.Compare(array[i - 1], array[i]) > 0)
                     {
-                        Sort.Swap(array,  i - 1,  i);
+                        Sort.Swap(array, i - 1, i);
                         consecSorted = 1;
                     }
-                    else consecSorted++;
+                    else
+                    {
+                        consecSorted++;
+                    }
                 }
                 start += consecSorted;
             }

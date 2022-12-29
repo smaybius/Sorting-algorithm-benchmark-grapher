@@ -22,8 +22,25 @@
             MainWindow.AddGets();
         }
 
+        public static implicit operator int(ArrayInt value)
+        {
+            return value.Value;
+        }
 
-        #region operators
+        public static implicit operator ArrayInt(int value)
+        {
+            return new ArrayInt(value);
+        }
+
+        public override bool Equals(object obj)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public override int GetHashCode()
+        {
+            throw new System.NotImplementedException();
+        }
         public static bool operator ==(ArrayInt left, ArrayInt right)
         {
             MainWindow.AddComparison();
@@ -58,17 +75,6 @@
         {
             MainWindow.AddComparison();
             return left.Value >= right.Value;
-        }
-        #endregion
-
-        public static implicit operator int(ArrayInt value)
-        {
-            return value.Value;
-        }
-
-        public static implicit operator ArrayInt(int value)
-        {
-            return new ArrayInt(value);
         }
     }
 }

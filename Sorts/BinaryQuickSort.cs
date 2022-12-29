@@ -2,6 +2,22 @@
 
 namespace Sorting_algorithm_benchmark_grapher.Sorts
 {
+    /**
+ * Binary MSD Radix Sort / Binary Quicksort.
+ *
+ * Implemented as recursive decent, and via task queue, see:
+ * * binaryQuickSortRecursive, and
+ * * binaryQuickSort respectively.
+ *
+ * Both of which are in-place sorting algorithms, with the recursive utilizing
+ * the stack for divide-and-conquer, while the non-recursive utilizes a queue.
+ *
+ * Can be extended to support unsigned integers, by sorting the first bit rin
+ * reverse. Can be made stable at the cost of O(n) memory. Can be parallalized
+ * to O(log2(n)) subtasks / threads.
+ *
+ * @author Skeen
+ */
     internal class BinaryQuickSort : IIntegerSorter
     {
         public string Title => "Binary quicksort";

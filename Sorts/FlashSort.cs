@@ -2,6 +2,14 @@
 
 namespace Sorting_algorithm_benchmark_grapher.Sorts
 {
+    // The flashsort algorithm is attributed to Karl-Dietrich Neubert
+    // The translation to C++ is provided by Clint Jed Casper
+    // Refactored in Java by MusicTheorist
+    //
+    // sorts an array in place in O(n) time using 20% of the
+    // memory used by the array for storing intermediate,
+    // temporary computations
+
     internal sealed class FlashSort : IIntegerSorter
     {
         public string Title => "Flash sort";
